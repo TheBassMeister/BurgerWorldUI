@@ -1,0 +1,10 @@
+.mainBurgerDiv{
+    padding: 20px 30px;
+}
+
+.burgerWorldFooter{
+    position: fixed;
+    bottom: 0px;
+    text-align: center;
+    width: 100%;
+}
