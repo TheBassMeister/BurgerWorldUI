@@ -8,3 +8,22 @@
     text-align: center;
     width: 100%;
 }
+
+.burgerCard{
+    background: aliceblue;
+    max-width: 350px;
+}
+
+.burgerCardBody{
+    padding: 10px 20px;
+}
+
+.burgerPrice{
+    font-weight: bold;
+    font-size: 18px;
+    display: grid;
+}
+
+.burgerDesc{
+    height:12em;
+}

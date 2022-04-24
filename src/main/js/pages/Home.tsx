@@ -1,8 +1,10 @@
 'use strict';
 import { NavLink } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
+// @ts-ignore
 import CreateNewBurgerDialog  from "./CreateNewBurgerDialog.tsx";
-import React, { useState } from "react";
+import * as React from 'react';
+import { useState } from "react";
 
 const Home = ({handleShow}) => {
 

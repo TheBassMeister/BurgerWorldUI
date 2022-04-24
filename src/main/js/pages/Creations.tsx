@@ -1,6 +1,6 @@
 'use strict';
 import { Button} from 'react-bootstrap';
-import React from "react";
+import * as React from "react";
 
 const Create = ({handleShow}) => {
 
