@@ -24,6 +24,17 @@
     display: grid;
 }
 
+.newBurgerPrice{
+    font-weight: bold;
+    font-size: 18px;
+    display: grid;
+    margin-top: 15px;
+}
+
 .burgerDesc{
     height:12em;
+}
+
+.ingredientLabel{
+    padding-left:5px;
 }

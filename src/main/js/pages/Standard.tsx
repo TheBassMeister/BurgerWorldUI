@@ -4,24 +4,11 @@ import { Card, CardGroup, Button} from 'react-bootstrap';
 import Burger from '../model/Burger.tsx'
 // @ts-ignore
 import Ingredient from '../model/Ingredient.tsx';
-import { useState } from "react";
 import * as React from 'react';
 
-const Standard = () => {
-    {/* Currently hardcoded will be replaced with rest call*/}
-    let burgers = [
-        new Burger("Standard Burger", [
-            new Ingredient("Regular Bun", "BUN", 0.25),
-            new Ingredient("Beef Patty","BURGER", 1.20),
-            new Ingredient("Cheese", "OTHER", 0.30),
-            new Ingredient("Ketchup","SAUCE", 0.10)]),
-        new Burger("The Veg", [
-            new Ingredient("Gluten Free Bun","BUN",0.35),
-            new Ingredient("Vegetarian Patty","BURGER",1.20),
-            new Ingredient("Lettuce","VEG",0.10)])
-    ];
-    let burgerList=burgers.map((burger,index)=>{
+const Standard = ({burgers}) => {
 
+    let burgerList=burgers.map((burger,index)=>{
     return <Card className="burgerCard" key={index} style={{ width: '18rem' }}>
              <Card.Body className="burgerCardBody">
                <Card.Title>{burger.name}</Card.Title>

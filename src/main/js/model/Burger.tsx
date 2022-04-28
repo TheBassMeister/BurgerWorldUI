@@ -19,4 +19,7 @@ export default class Burger{
         return price;
     }
 
+    addIngredient(ingredient:Ingredient){
+        this.ingredients.push(ingredient);
+    }
 }
