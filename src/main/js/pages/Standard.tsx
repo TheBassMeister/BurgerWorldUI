@@ -1,19 +1,20 @@
 'use strict';
-import { Card, Button} from 'react-bootstrap';
+import {CardGroup} from 'react-bootstrap';
+// @ts-ignore
+import Burger from '../model/Burger.tsx'
+// @ts-ignore
+import BurgerCard from './BurgerCard.tsx';
+import * as React from 'react';
 
-const React = require('react');
+const Standard = ({burgers}) => {
+    let burgerList=burgers.filter(burger => !burger.isCustom).map((burger,index) => {
+            return <BurgerCard key={index} burger={burger} index={index}/>
+        }
+    );
 
-const Standard = () => {
-  return <Card style={{ width: '18rem' }}>
-           {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
-           <Card.Body>
-             <Card.Title>Example Burger</Card.Title>
-             <Card.Text>
-                Here will be some description of the burger.
-             </Card.Text>
-             <Button variant="primary">Order Me</Button>
-           </Card.Body>
-         </Card>;
+    return <CardGroup>
+    {burgerList}
+    </CardGroup>;
 };
 
 export default Standard;

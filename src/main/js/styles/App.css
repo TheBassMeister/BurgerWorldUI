@@ -8,3 +8,46 @@
     text-align: center;
     width: 100%;
 }
+
+.burgerCard{
+    background: aliceblue;
+    max-width: 350px;
+}
+
+.burgerCardBody{
+    padding: 10px 20px;
+}
+
+.burgerPrice{
+    font-weight: bold;
+    font-size: 18px;
+    display: grid;
+}
+
+.newBurgerPrice{
+    font-weight: bold;
+    font-size: 18px;
+    display: grid;
+    margin-top: 15px;
+}
+
+.burgerDesc{
+    height:12em;
+}
+
+.ingredientLabel{
+    padding-left:5px;
+}
+
+.orderAnother{
+    padding-top: 10px;
+}
+
+.ingrSelectionGrid{
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.ingredientQuant{
+    width:50px;
+}

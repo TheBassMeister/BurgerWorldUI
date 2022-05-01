@@ -2,12 +2,15 @@ var path = require('path');
 
 module.exports = {
     entry: './src/main/js/app.js',
-    devtool: 'sourcemaps',
+    devtool: "eval-source-map",
     cache: true,
     mode: 'development',
     output: {
         path: __dirname,
         filename: './src/main/resources/static/built/bundle.js'
+    },
+    resolve: {
+        extensions: ['.ts', '.tsx', '.js', '.json']
     },
     module: {
         rules: [
@@ -21,16 +24,21 @@ module.exports = {
                     }
                 }]
             },
-          {
-            test: /\.(jpg|png)$/,
-            use: {
-              loader: 'url-loader',
+            {
+                test: /\.(jpg|png)$/,
+                use: {
+                  loader: 'url-loader',
+                },
             },
-          },
-        {
-          test: /\.css$/i,
-          use: ["style-loader", "css-loader"],
-        },
+            {
+                test: /\.css$/i,
+                use: ["style-loader", "css-loader"],
+            },
+            {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+            },
         ],
     }
 };
