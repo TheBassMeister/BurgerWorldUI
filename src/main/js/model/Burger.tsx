@@ -3,23 +3,25 @@
 import Ingredient from './Ingredient.tsx';
 
 export default class Burger{
-    private name:String;
-    private ingredients:Ingredient[];
+    private name:string;
+    private ingredients:Map<Ingredient, Number>;
+    private isCustom:Boolean;
 
-    constructor(name:String, ingredients:Ingredient[]) {
+    constructor(name:string, isCustom:Boolean) {
         this.name = name;
-        this.ingredients = ingredients;
+        this.ingredients = new Map();
+        this.isCustom = isCustom;
     }
 
     get price(){
-        let price=0.00;
-        for (const ingr of this.ingredients) {
-           price+=ingr.price;
+        let price=2.00;
+        for (let ingr of this.ingredients.entries()) {
+           price+=(ingr[0].price * +ingr[1]);
         }
         return price;
     }
 
-    addIngredient(ingredient:Ingredient){
-        this.ingredients.push(ingredient);
+    addIngredient(ingredient:Ingredient, amount:Number){
+        this.ingredients.set(ingredient,amount);
     }
 }

@@ -8,7 +8,7 @@ import Ingredient from '../model/Ingredient.tsx';
 // @ts-ignore
 import Burger from '../model/Burger.tsx'
 
-const CreateNewBurgerDialog = ({show, handleClose, ingredients}) =>{
+const CreateNewBurgerDialog = ({show, handleClose, ingredients, addNewBurger}) =>{
     const [pageNr, setPageNr] = useState(1);
     const [currCost, setCurrCost] = useState(2.25);
     const [selectedBun, setSelectedBun] = useState("Regular Bun");
@@ -27,10 +27,11 @@ const CreateNewBurgerDialog = ({show, handleClose, ingredients}) =>{
             }
             setPageNr(next);
         }else{
-            let burger=new Burger(burgerName,[]);
+            let burger=new Burger(burgerName,[], true);
             currSelectedIngredients.forEach( ingr =>{
-                burger.addIngredient(getIngredientByName(ingr));
+                burger.addIngredient(getIngredientByName(ingr),1);
             });
+            addNewBurger(burger);
             {/* TODO: Add new burger to burgers*/}
             {closeDialog()}
         }

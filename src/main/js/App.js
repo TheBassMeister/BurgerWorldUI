@@ -16,21 +16,29 @@ import Burger from "./model/Burger.tsx"
 
 export default function App() {
   const [show, setShow] = useState(false);
+  const [burgers, setBurgers] = useState([
+        new Burger("Standard Burger"),
+        new Burger("The Veg")
+    ]);
+
+  burgers[0].addIngredient(new Ingredient("Regular Bun", "BUN", 0.25),1);
+  burgers[0].addIngredient(new Ingredient("Beef Patty","BURGER", 1.20),1);
+  burgers[0].addIngredient(new Ingredient("Cheese", "OTHER", 0.30),2);
+  burgers[0].addIngredient(new Ingredient("Ketchup","SAUCE", 0.10),3);
+
+  burgers[1].addIngredient(new Ingredient("Gluten Free Bun","BUN",0.35),1);
+  burgers[1].addIngredient(new Ingredient("Vegetarian Patty","BURGER",1.20),2);
+  burgers[1].addIngredient(new Ingredient("Lettuce","VEG",0.10),3);
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  {/* Currently hardcoded will be replaced with rest call*/}
-  let burgers = [
-      new Burger("Standard Burger", [
-          new Ingredient("Regular Bun", "BUN", 0.25),
-          new Ingredient("Beef Patty","BURGER", 1.20),
-          new Ingredient("Cheese", "OTHER", 0.30),
-          new Ingredient("Ketchup","SAUCE", 0.10)]),
-      new Burger("The Veg", [
-          new Ingredient("Gluten Free Bun","BUN",0.35),
-          new Ingredient("Vegetarian Patty","BURGER",1.20),
-          new Ingredient("Lettuce","VEG",0.10)])
-  ];
+  const addNewBurger = (burger) => {
+    const burgerUpdate = [...burgers, burger];
+    setBurgers(burgerUpdate);
+  }
 
+
+  {/* Currently hardcoded will be replaced with rest call*/}
   let ingredients = [
         new Ingredient("Regular Bun","BUN", 0.25), new Ingredient("Sesame Bun","BUN", 0.40),
         new Ingredient("Gluten Free Bun","BUN", 0.35), new Ingredient("Beef Patty","BURGER", 1.20),
@@ -48,9 +56,9 @@ export default function App() {
       <Routes>
         <Route exact path="/" element={<Home handleShow={handleShow} />} />
         <Route path="/standard" element={<Standard burgers={burgers}/>} />
-        <Route path="/create" element={<Creations handleShow={handleShow} />} />
+        <Route path="/create" element={<Creations handleShow={handleShow} burgers={burgers}/>} />
       </Routes>
-      <CreateNewBurgerDialog show={show} handleClose={handleClose} ingredients={ingredients} />
+      <CreateNewBurgerDialog show={show} handleClose={handleClose} ingredients={ingredients} addNewBurger={addNewBurger}/>
       <Footer />
       </div>
     </BrowserRouter>
