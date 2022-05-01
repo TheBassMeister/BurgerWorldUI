@@ -21,14 +21,20 @@ export default function App() {
         new Burger("The Veg")
     ]);
 
-  burgers[0].addIngredient(new Ingredient("Regular Bun", "BUN", 0.25),1);
-  burgers[0].addIngredient(new Ingredient("Beef Patty","BURGER", 1.20),1);
-  burgers[0].addIngredient(new Ingredient("Cheese", "OTHER", 0.30),2);
-  burgers[0].addIngredient(new Ingredient("Ketchup","SAUCE", 0.10),3);
+  {/* Temporary Fix to avoid duplicating ingredients when rerending page, will
+    be fixed when loading from backend will be implemented*/}
+  if(burgers[0].ingredients.size==0){
+      burgers[0].addIngredient(new Ingredient("Regular Bun", "BUN", 0.25),1);
+      burgers[0].addIngredient(new Ingredient("Beef Patty","BURGER", 1.20),1);
+      burgers[0].addIngredient(new Ingredient("Cheese", "OTHER", 0.30),2);
+      burgers[0].addIngredient(new Ingredient("Ketchup","SAUCE", 0.10),3);
+  }
 
-  burgers[1].addIngredient(new Ingredient("Gluten Free Bun","BUN",0.35),1);
-  burgers[1].addIngredient(new Ingredient("Vegetarian Patty","BURGER",1.20),2);
-  burgers[1].addIngredient(new Ingredient("Lettuce","VEG",0.10),3);
+  if(burgers[1].ingredients.size==0){
+      burgers[1].addIngredient(new Ingredient("Gluten Free Bun","BUN",0.35),1);
+      burgers[1].addIngredient(new Ingredient("Vegetarian Patty","BURGER",1.20),2);
+      burgers[1].addIngredient(new Ingredient("Lettuce","VEG",0.10),3);
+  }
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);

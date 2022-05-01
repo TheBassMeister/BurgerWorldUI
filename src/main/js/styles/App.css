@@ -42,3 +42,12 @@
 .orderAnother{
     padding-top: 10px;
 }
+
+.ingrSelectionGrid{
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.ingredientQuant{
+    width:50px;
+}

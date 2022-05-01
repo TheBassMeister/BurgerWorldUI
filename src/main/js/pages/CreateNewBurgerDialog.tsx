@@ -13,14 +13,15 @@ const CreateNewBurgerDialog = ({show, handleClose, ingredients, addNewBurger}) =
     const [currCost, setCurrCost] = useState(2.25);
     const [selectedBun, setSelectedBun] = useState("Regular Bun");
     const [buttonDisabled, setButtonDisabled] = useState(false);
-    const [currSelectedIngredients, setCurrSelectedIngredients]=useState([]);
+    const [currSelectedIngredients, setCurrSelectedIngredients]=useState(new Map());
+
     const [burgerName, setBurgerName]=useState("");
 
     const nextPage = () =>{
         let next=pageNr+1;
         if(next<=6){
             if(pageNr==1){
-                currSelectedIngredients.push(selectedBun);
+                currSelectedIngredients.set(selectedBun, 1);
             }
             if(next==2 || next==6){
                 setButtonDisabled(true);
@@ -28,11 +29,10 @@ const CreateNewBurgerDialog = ({show, handleClose, ingredients, addNewBurger}) =
             setPageNr(next);
         }else{
             let burger=new Burger(burgerName,[], true);
-            currSelectedIngredients.forEach( ingr =>{
-                burger.addIngredient(getIngredientByName(ingr),1);
+            currSelectedIngredients.forEach( (value, key) =>{
+                burger.addIngredient(getIngredientByName(key),value);
             });
             addNewBurger(burger);
-            {/* TODO: Add new burger to burgers*/}
             {closeDialog()}
         }
     }
@@ -40,7 +40,7 @@ const CreateNewBurgerDialog = ({show, handleClose, ingredients, addNewBurger}) =
     const closeDialog = () => {
         setPageNr(1);
         setSelectedBun("Regular Bun");
-        setCurrSelectedIngredients([]);
+        setCurrSelectedIngredients(new Map());
         setCurrCost(2.25);
         setBurgerName("");
         setButtonDisabled(false);
@@ -72,34 +72,51 @@ const CreateNewBurgerDialog = ({show, handleClose, ingredients, addNewBurger}) =
     const IngredientSelection = ({type, typeAsString}) => {
         return <div>
                 <p>Please select your {typeAsString}:</p>
+                    <div className="ingrSelectionGrid">
                     {ingredients.filter(ingr => ingr.type==type).map((ingr,idx)=>{
-                    return  <div key={idx}>
-                               <input key={idx} type="checkbox" id={ingr.type} value={ingr.name+";"+ingr.price}
-                                    checked={currSelectedIngredients.includes(ingr.name)} onChange={ingredientSelected}/>
-                               <span className="ingredientLabel">{ingr.name} {ingr.price}{'$'}</span>
-                            </div>;
+                    const isSelected=currSelectedIngredients.has(ingr.name);
+                    return  <React.Fragment key={idx}>
+                               <div><input key={idx} type="checkbox" id={ingr.type} value={ingr.name+";"+ingr.price}
+                                    checked={isSelected} onChange={ingredientSelected}/>
+                               <span className="ingredientLabel">{ingr.name} {ingr.price}{'$'}</span></div>
+                              <div><input className="ingredientQuant" type="number" id="quantity" name="quantity" min="1" max="5"
+                               disabled={!isSelected} defaultValue={currSelectedIngredients.get(ingr.name)}
+                               onChange={() => ingrAmountChanged(ingr.name, event)}/></div>
+                            </React.Fragment>;
                     })}
+                    </div>
                 </div>;
     }
 
     const ingredientSelected = (event) => {
         event.preventDefault();
-        let checked=event.target.checked;
-        let selected=event.target.value.split(";");
-        let cost=0;
+        let checked = event.target.checked;
+        let selected = event.target.value.split(";");
+        let ingrName = selected[0];
+        let quantity = currSelectedIngredients.get(ingrName)? currSelectedIngredients.get(ingrName) : 1;
+        let newPrice = quantity*(+selected[1]);
+        let cost = 0;
         if(checked){
-            currSelectedIngredients.push(selected[0]);
-            cost=currCost+(+selected[1]);
+            currSelectedIngredients.set(ingrName,quantity);
+            cost=currCost+newPrice;
         }else{
-            {/* Could be optimized to not search, but attempts did fail. Also array sizes are really small*/}
-            let index = currSelectedIngredients.indexOf(selected[0]);
-            currSelectedIngredients.splice(index, 1);
-            cost=currCost-(+selected[1]);
+            currSelectedIngredients.delete(ingrName);
+            cost=currCost-newPrice;
         }
         setCurrCost(+cost.toFixed(2));
         if(pageNr==2){
-            setButtonDisabled(currSelectedIngredients.length<2);
+            setButtonDisabled(currSelectedIngredients.size<2);
         }
+    }
+
+    const ingrAmountChanged = (ingrName, event) =>{
+        event.preventDefault();
+        let quantity = event.target.value;
+        let change = quantity - currSelectedIngredients.get(ingrName);
+        currSelectedIngredients.set(ingrName, quantity);
+        let ingr = getIngredientByName(ingrName);
+        let cost = (ingr.price*change)+currCost;
+        setCurrCost(+cost.toFixed(2));
     }
 
     const nameChanged = (event) => {
